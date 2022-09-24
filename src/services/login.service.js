@@ -1,11 +1,17 @@
 const { User } = require('../models');
+const { generateToken } = require('../utils/JWT');
 
 const checkDataLogin = async (email) => {
-  const existEmail = await User.findOne({
+  const user = await User.findOne({
     where: { email },
   });
-  console.log(existEmail);
-  return existEmail;
+  if (user === null) return user;
+  
+  const token = generateToken({
+    id: user.dataValues.id,
+    email: user.dataValues.email,
+  });
+  return token;
 };
 
 module.exports = {

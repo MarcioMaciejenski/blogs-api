@@ -8,7 +8,7 @@ const checkDataLogin = async (req, res) => {
     if (result === null) {
       return res.status(400).json({ message: 'Invalid fields' });
     }
-    return res.status(200).json({ result });
+    return res.status(200).json({ token: result });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err.message });
