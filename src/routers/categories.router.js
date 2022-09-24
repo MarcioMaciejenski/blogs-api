@@ -6,5 +6,6 @@ const tokenAuth = require('../middlewares/tokenAuth');
 const router = express.Router();
 
 router.post('/', tokenAuth, categoriesMiddleware, CategoriesController.insertCategory);
+router.get('/', tokenAuth, CategoriesController.getAllCategories);
 
 module.exports = router;
