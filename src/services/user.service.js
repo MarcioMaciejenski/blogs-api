@@ -23,8 +23,17 @@ const getAllUsers = async () => User.findAll({
   attributes: { exclude: ['password'] },
 });
 
+const getUserById = async (id) => {
+  const getUser = await User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] },
+  });
+  return getUser;
+};
+
 module.exports = {
   insertUser,
   verifyEmail,
   getAllUsers,
+  getUserById,
 };
