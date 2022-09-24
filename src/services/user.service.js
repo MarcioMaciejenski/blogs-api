@@ -19,7 +19,12 @@ const insertUser = async (userData) => {
   return { token };
 };
 
+const getAllUsers = async () => User.findAll({
+  attributes: { exclude: ['password'] },
+});
+
 module.exports = {
   insertUser,
   verifyEmail,
+  getAllUsers,
 };

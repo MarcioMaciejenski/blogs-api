@@ -9,6 +9,17 @@ const { JWT_SECRET } = process.env;
 
 const generateToken = (payload) => jwt.sign(payload, JWT_SECRET, jwtConfig);
 
+const validateToken = (token) => {
+  try {
+    const verifyToken = jwt.verify(token, JWT_SECRET);
+    return verifyToken;
+  } catch (e) {
+    const err = new Error(e.message);
+    throw err;
+  }
+};
+
 module.exports = {
   generateToken,
+  validateToken,
 };
