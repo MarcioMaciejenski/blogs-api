@@ -74,6 +74,19 @@ const verifyUserIdPost = async (id) => {
   return userId;
 };
 
+const verifyPostExists = async (id) => {
+  const postId = await BlogPost.findOne({
+    where: { id },
+    attributes: { exclude: ['title', 'content', 'idUser', 'published', 'updated'] },
+  });
+  return postId;
+};
+
+const deletePostById = async (id) => {
+  const postDeleted = await BlogPost.destroy({ where: { id } });
+  return postDeleted;
+};
+
 module.exports = {
   insertPost,
   verifyCategoryExists,
@@ -81,4 +94,6 @@ module.exports = {
   getPostById,
   updatePostById,
   verifyUserIdPost,
+  verifyPostExists,
+  deletePostById,
 };
