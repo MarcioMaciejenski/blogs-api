@@ -23,6 +23,13 @@ const insertPost = async (req, res) => {
   }
 };
 
+const getAllPosts = async (_req, res) => {
+  const posts = await postService.getAllPosts();
+
+  return res.status(200).json(posts);
+};
+
 module.exports = {
   insertPost,
+  getAllPosts,
 };
