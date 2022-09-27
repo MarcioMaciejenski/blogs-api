@@ -69,11 +69,6 @@ const updatePostById = async (req, res) => {
 const deletePostById = async (req, res) => {
   try {
     const userId = await findIdByToken(req.header('Authorization'));
-    const isUserIdPost = await postService.verifyUserIdPost(userId);
-
-    if (!isUserIdPost) {
-      return res.status(401).json({ message: 'Unauthorized user' });
-    }
 
     const { id } = req.params;
     const existPost = await postService.verifyPostExists(id);
@@ -81,12 +76,19 @@ const deletePostById = async (req, res) => {
     if (existPost === null) {
       return res.status(404).json({ message: 'Post does not exist' });
     }
-    await postService.deletePostById(id);
+    const postDeleted = await postService.deletePostById(id, userId);
+    if (postDeleted === 0) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
     return res.status(204).send();
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: err.message });
   }
+};
+
+const findPostByTerm = () => {
+  console.log('oi');
 };
 
 module.exports = {
@@ -95,4 +97,5 @@ module.exports = {
   getPostById,
   updatePostById,
   deletePostById,
+  findPostByTerm,
 };

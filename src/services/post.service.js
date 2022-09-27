@@ -82,8 +82,8 @@ const verifyPostExists = async (id) => {
   return postId;
 };
 
-const deletePostById = async (id) => {
-  const postDeleted = await BlogPost.destroy({ where: { id } });
+const deletePostById = async (id, userId) => {
+  const postDeleted = await BlogPost.destroy({ where: { id, userId } });
   return postDeleted;
 };
 
