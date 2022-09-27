@@ -1,4 +1,5 @@
 const userService = require('../services/user.service');
+const { findIdByToken } = require('../utils/JWT');
 
 const insertUser = async (req, res) => {
   try {
@@ -40,8 +41,21 @@ const getUserById = async (req, res) => {
   }
 };
 
+const deleteUserByToken = async (req, res) => {
+  try {
+    const user = await findIdByToken(req.header('Authorization'));
+    await userService.deleteUserByToken(user);
+    
+    return res.status(204).send();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   insertUser,
   getAllUsers,
   getUserById,
+  deleteUserByToken,
 };
