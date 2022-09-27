@@ -26,7 +26,7 @@ const getAllPosts = async () => {
     include: [
       {
         model: User,
-        as: 'users',
+        as: 'user',
         attributes: { exclude: ['password'] },
       },
       {
@@ -36,12 +36,31 @@ const getAllPosts = async () => {
       },
     ],
   });
-  console.log('AllPosts', allPosts);
   return allPosts;
+};
+
+const getPostById = async (id) => {
+  const getPost = await BlogPost.findOne({
+    where: { id },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+  return getPost;
 };
 
 module.exports = {
   insertPost,
   verifyCategoryExists,
   getAllPosts,
+  getPostById,
 };
