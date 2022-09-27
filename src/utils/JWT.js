@@ -19,7 +19,13 @@ const validateToken = (token) => {
   }
 };
 
+const findIdByToken = (token) => {
+  const idDecoded = jwt.verify(token, JWT_SECRET);
+  return idDecoded.id;
+};
+
 module.exports = {
   generateToken,
   validateToken,
+  findIdByToken,
 };
