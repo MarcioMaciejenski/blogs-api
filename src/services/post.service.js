@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, Category, PostCategory, User } = require('../models');
 
 const verifyCategoryExists = async (categories) => {
@@ -87,6 +88,27 @@ const deletePostById = async (id, userId) => {
   return postDeleted;
 };
 
+const findPostByTerm = async (term) => {
+  const searchPostByTerm = await BlogPost.findAll({
+    where: { // https://www.tabnine.com/code/javascript/functions/sequelize site aonde pesquisei sobre [Op.or] e [Op.like]
+      [Op.or]: [{ title: { [Op.like]: `%${term}%` } },
+        { content: { [Op.like]: `%${term}%` } }] },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+  return searchPostByTerm;
+};
+
 module.exports = {
   insertPost,
   verifyCategoryExists,
@@ -96,4 +118,5 @@ module.exports = {
   verifyUserIdPost,
   verifyPostExists,
   deletePostById,
+  findPostByTerm,
 };

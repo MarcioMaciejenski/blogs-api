@@ -5,10 +5,10 @@ const validatePostData = require('../middlewares/validatePostData');
 
 const router = express.Router();
 
+router.get('/search', tokenAuth, PostController.findPostByTerm);
 router.post('/', tokenAuth, validatePostData, PostController.insertPost);
 router.get('/', tokenAuth, PostController.getAllPosts);
 router.get('/:id', tokenAuth, PostController.getPostById);
-router.get('/search', tokenAuth, PostController.findPostByTerm);
 router.put('/:id', tokenAuth, validatePostData, PostController.updatePostById);
 router.delete('/:id', tokenAuth, PostController.deletePostById);
 

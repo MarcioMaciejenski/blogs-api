@@ -87,8 +87,16 @@ const deletePostById = async (req, res) => {
   }
 };
 
-const findPostByTerm = () => {
-  console.log('oi');
+const findPostByTerm = async (req, res) => {
+  try {
+    const term = req.query.q;
+    const searchPostByTerm = await postService.findPostByTerm(term);
+
+    return res.status(200).json(searchPostByTerm);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err.messae });
+  }
 };
 
 module.exports = {
